@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pruvo - Frontend</title>
+    <script>
+        window.onload = function () {
+            fetch('/api/currency', { method: 'get' }).then((response) => {
+                const json = response.json();
+                console.info(response);
+                if (response) {
+                    return json;
+                }
+                return Promise.reject(new Error('Something went wrong.'));
+            })
+                .then((response) => {
+                    document.getElementById('version').innerHTML = JSON.stringify(response);
+                }).catch((error) => {
+                    document.getElementById('error').innerHTML = error && error.message || 'Something went wrong.';
+                });
+
+            for (let index = 0; index < 1000; index++) {
+                fetch('/api/currency/conversion-rate?mailTo=alt.z9-4qez000@yopmail.com&from=USD&to=EUR&value=' + index, { method: 'get' }).then((response) => {
+                    const json = response.json();
+                    console.info(response);
+                    if (response) {
+                        return json;
+                    }
+                    return Promise.reject(new Error('Something went wrong.'));
+                })
+                    .then((response) => {
+                        document.getElementById('test').innerHTML = JSON.stringify(response);
+                        document.getElementById('Iteration').innerHTML = index;
+                    }).catch((error) => {
+                        document.getElementById('testError').innerHTML = error && error.message || 'Something went wrong.';
+                    });
+
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <h1>My Pruvo App</h1>
+    <p id="version"></p>
+    <p id="error"></p>
+    <hr>
+    <p id="test"></p>
+    <p id="testError"></p>
+    <p id="Iteration"></p>
+</body>
+
+</html>
